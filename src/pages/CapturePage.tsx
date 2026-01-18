@@ -1,17 +1,17 @@
-import { useNavigate } from 'react-router-dom';
-import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useTimer } from '@/hooks/useTimer';
-import { useSessionStore } from '@/stores/sessionStore';
-import { useAchievementStore } from '@/stores/achievementStore';
-import { formatDuration } from '@/lib/formatters';
 import {
-  getUnlockedMilestones,
   checkForNewRecord,
+  getUnlockedMilestones,
   MILESTONES,
 } from '@/lib/achievements';
-import type { AchievementPeriod, Achievement } from '@/types';
+import { formatDuration } from '@/lib/formatters';
+import { useAchievementStore } from '@/stores/achievementStore';
+import { useSessionStore } from '@/stores/sessionStore';
+import type { Achievement, AchievementPeriod } from '@/types';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const PERIODS: AchievementPeriod[] = ['day', 'week', 'month', 'allTime'];
 
@@ -175,15 +175,15 @@ export function CapturePage() {
           )}
         </div>
 
-        <div className="flex gap-2 mt-4">
-          <Button variant="ghost" onClick={handleCancel}>
-            Cancel
-          </Button>
+        <div className="flex flex-col gap-2 mt-4">
           {showSave && (
             <Button onClick={handleSave}>
               Save
             </Button>
           )}
+          <Button variant="ghost" onClick={handleCancel}>
+            Cancel
+          </Button>
         </div>
       </main>
     </div>
