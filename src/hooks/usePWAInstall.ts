@@ -14,10 +14,25 @@ interface PWAInstallState {
 
 const DISMISS_COOLDOWN_MS = 7 * 24 * 60 * 60 * 1000; // 1 week
 
+// Global state to capture beforeinstallprompt before React mounts
+let globalDeferredPrompt: BeforeInstallPromptEvent | null = null;
+let globalPromptCaptured = false;
+
+// Set up global listener immediately (runs when module is imported)
+if (typeof window !== 'undefined') {
+  window.addEventListener('beforeinstallprompt', (e: Event) => {
+    e.preventDefault();
+    globalDeferredPrompt = e as BeforeInstallPromptEvent;
+    globalPromptCaptured = true;
+  });
+}
+
 export function usePWAInstall() {
-  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(
+    () => globalDeferredPrompt
+  );
   const [state, setState] = useState<PWAInstallState>(() => ({
-    isInstallable: false,
+    isInstallable: globalPromptCaptured,
     isInstalled: window.matchMedia('(display-mode: standalone)').matches,
     isIOS: /iPad|iPhone|iPod/.test(navigator.userAgent),
     promptDismissedAt: localStorage.getItem('pwa-dismissed')
@@ -26,8 +41,11 @@ export function usePWAInstall() {
   }));
 
   useEffect(() => {
+    // Handle case where event fires after hook mounts
     const handler = (e: Event) => {
       e.preventDefault();
+      globalDeferredPrompt = e as BeforeInstallPromptEvent;
+      globalPromptCaptured = true;
       setDeferredPrompt(e as BeforeInstallPromptEvent);
       setState(s => ({ ...s, isInstallable: true }));
     };
