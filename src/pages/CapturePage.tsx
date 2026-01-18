@@ -138,7 +138,7 @@ export function CapturePage() {
         </p>
 
         <p className="text-center mb-4 max-w-xs text-sm">
-          In a single word, describe the first thought that entered your mind:
+          Describe the first thought that entered your mind
         </p>
 
         <div className="w-full max-w-xs relative">
