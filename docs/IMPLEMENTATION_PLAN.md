@@ -17,61 +17,61 @@ Build a mobile-first PWA for meditation tracking using React + TypeScript + Shad
 ## Implementation Phases
 
 ### Phase 1: Project Setup
-- [ ] Initialize Vite + React + TypeScript project
-- [ ] Configure Tailwind CSS
-- [ ] Initialize ShadCN UI and add components (Button, Input, Card, Dialog)
-- [ ] Set up React Router with hash routing for GitHub Pages
-- [ ] Create folder structure and TypeScript types
+- [x] Initialize Vite + React + TypeScript project
+- [x] Configure Tailwind CSS
+- [x] Initialize ShadCN UI and add components (Button, Input, Card, Dialog)
+- [x] Set up React Router with hash routing for GitHub Pages
+- [x] Create folder structure and TypeScript types
 
 ### Phase 2: State Management & Persistence
-- [ ] Create `sessionStore.ts` - session CRUD, tag frequency tracking, localStorage persistence
-- [ ] Create `timerStore.ts` - timer state machine (idle → running → completed)
-- [ ] Create `achievementStore.ts` - milestone tracking, personal records
-- [ ] Create utility modules: `formatters.ts`, `achievements.ts`, `statistics.ts`
+- [x] Create `sessionStore.ts` - session CRUD, tag frequency tracking, localStorage persistence
+- [x] Create `timerStore.ts` - timer state machine (idle → running → completed)
+- [x] Create `achievementStore.ts` - milestone tracking, personal records
+- [x] Create utility modules: `formatters.ts`, `achievements.ts`, `statistics.ts`
 
 ### Phase 3: Timer & Visibility API
-- [ ] Implement `usePageVisibility.ts` hook for screen lock detection
-- [ ] Implement `useTimer.ts` hook with timestamp-based duration
-- [ ] Build `HomePage.tsx` with START button
-- [ ] Build `RunningPage.tsx` with timer display
-- [ ] Auto-navigate to capture page when screen unlocks
+- [x] Implement `usePageVisibility.ts` hook for screen lock detection
+- [x] Implement `useTimer.ts` hook with timestamp-based duration
+- [x] Build `HomePage.tsx` with START button
+- [x] Build `RunningPage.tsx` with timer display
+- [x] Auto-navigate to capture page when screen unlocks
 
 ### Phase 4: Post-Session Capture
-- [ ] Build `TagInput.tsx` with validation (trim, lowercase, no spaces)
-- [ ] Build `RecentMatches.tsx` - prefix-filtered suggestions (max 5, sorted by frequency then recency)
-- [ ] Implement `CapturePage.tsx` with conditional Save button display
-- [ ] Implement Cancel flow (discard session, return home)
+- [x] Build `TagInput.tsx` with validation (trim, lowercase, no spaces) *(integrated into CapturePage)*
+- [x] Build `RecentMatches.tsx` - prefix-filtered suggestions (max 5, sorted by frequency then recency) *(integrated into CapturePage)*
+- [x] Implement `CapturePage.tsx` with conditional Save button display
+- [x] Implement Cancel flow (discard session, return home)
 
 ### Phase 5: Achievements & Records
-- [ ] Define achievement milestones: 5m, 15m, 30m, 1h, 3h, 6h, 12h, 1 day
-- [ ] Implement period calculations (day/week/month/all-time)
-- [ ] Build `AchievementPage.tsx` for milestone celebrations (with Share button)
-- [ ] Build `NewRecordPage.tsx` for personal bests (with Share button)
-- [ ] Implement `useShare.ts` hook for privacy-safe sharing (Web Share API + fallback)
-- [ ] Build `SessionRecordedPage.tsx` with daily stats
+- [x] Define achievement milestones: 5m, 15m, 30m, 1h, 3h, 6h, 12h, 1 day
+- [x] Implement period calculations (day/week/month/all-time)
+- [x] Build `AchievementPage.tsx` for milestone celebrations (with Share button)
+- [x] Build `NewRecordPage.tsx` for personal bests (with Share button) *(named RecordPage.tsx)*
+- [x] Implement `useShare.ts` hook for privacy-safe sharing (Web Share API + fallback)
+- [x] Build `SessionRecordedPage.tsx` with daily stats *(named RecordedPage.tsx)*
 - [ ] Implement post-save navigation flow: Capture → Achievement → Record → Recorded → Home
 
 ### Phase 6: History Management
-- [ ] Build `SessionList.tsx` with `SessionCard.tsx` components
-- [ ] Build `SessionEditDialog.tsx` for edit/delete
-- [ ] Build `ClearAllDialog.tsx` with confirmation
-- [ ] Implement `HistoryPage.tsx` with stats summary
+- [x] Build `SessionList.tsx` with `SessionCard.tsx` components *(integrated into HistoryPage)*
+- [x] Build `SessionEditDialog.tsx` for edit/delete *(integrated into HistoryPage)*
+- [x] Build `ClearAllDialog.tsx` with confirmation *(integrated into HistoryPage)*
+- [x] Implement `HistoryPage.tsx` with stats summary
 
 ### Phase 7: PWA Configuration
-- [ ] Configure vite-plugin-pwa in `vite.config.ts`
-- [ ] Create PWA manifest with app name, icons, theme colors
-- [ ] Create icon assets (192x192, 512x512)
-- [ ] Add iOS meta tags to `index.html`
-- [ ] Configure offline caching with Workbox
-- [ ] Implement `usePWAInstall.ts` hook to capture `beforeinstallprompt` event
-- [ ] Build `InstallPrompt.tsx` component (banner/modal with Install + Maybe later)
-- [ ] Add iOS detection and instruction modal ("Tap Share → Add to Home Screen")
-- [ ] Track prompt dismissals in localStorage (frequency cap)
+- [x] Configure vite-plugin-pwa in `vite.config.ts`
+- [x] Create PWA manifest with app name, icons, theme colors
+- [x] Create icon assets (192x192, 512x512)
+- [x] Add iOS meta tags to `index.html`
+- [x] Configure offline caching with Workbox
+- [x] Implement `usePWAInstall.ts` hook to capture `beforeinstallprompt` event
+- [x] Build `InstallPrompt.tsx` component (banner/modal with Install + Maybe later)
+- [x] Add iOS detection and instruction modal ("Tap Share → Add to Home Screen")
+- [x] Track prompt dismissals in localStorage (frequency cap)
 
 ### Phase 8: GitHub Pages Deployment
-- [ ] Configure Vite `base` path for GitHub Pages
-- [ ] Create GitHub Actions workflow for automatic deployment
-- [ ] Test deployment and PWA installation from GitHub Pages URL
+- [x] Configure Vite `base` path for GitHub Pages
+- [x] Create GitHub Actions workflow for automatic deployment
+- [x] Test deployment and PWA installation from GitHub Pages URL
 
 ### Phase 9: Polish
 - [ ] Add loading states and transitions
