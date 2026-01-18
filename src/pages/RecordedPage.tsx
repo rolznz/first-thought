@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useSessionStore } from '@/stores/sessionStore';
 import { getDailyStats } from '@/lib/statistics';
 import { formatDuration } from '@/lib/formatters';
+import { InstallPrompt } from '@/components/InstallPrompt';
 
 interface LocationState {
   sessionId: string;
@@ -53,6 +54,8 @@ export function RecordedPage() {
         <Button onClick={handleDone}>
           Done
         </Button>
+
+        <InstallPrompt />
       </main>
     </div>
   );
