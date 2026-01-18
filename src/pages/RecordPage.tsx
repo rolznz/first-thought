@@ -1,9 +1,9 @@
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useShare } from '@/hooks/useShare';
 import { formatDuration } from '@/lib/formatters';
 import type { AchievementPeriod } from '@/types';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface LocationState {
   period: AchievementPeriod;
@@ -65,19 +65,19 @@ export function RecordPage() {
         <h2 className="text-2xl font-semibold mb-4">New Record!</h2>
 
         <p className="text-muted-foreground mb-2">
-          {PERIOD_LABELS[period]} personal best
+          {PERIOD_LABELS[period]}'s personal best
         </p>
 
-        <p className="text-4xl font-mono mb-2">
+        <p className="text-4xl font-mono mb-6">
           {formatDuration(sessionDuration)}
         </p>
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-col items-center justify-center">
+          <Button onClick={handleContinue}>
+            Continue
+          </Button>
           <Button variant="outline" onClick={handleShare}>
             {copied ? 'Copied!' : 'Share'}
-          </Button>
-          <Button onClick={handleContinue}>
-            Cool — continue
           </Button>
         </div>
       </main>

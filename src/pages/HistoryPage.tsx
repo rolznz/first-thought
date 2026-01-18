@@ -1,20 +1,20 @@
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
   DialogDescription,
   DialogFooter,
+  DialogHeader,
+  DialogTitle,
 } from '@/components/ui/dialog';
-import { ArrowLeft } from 'lucide-react';
-import { useSessionStore } from '@/stores/sessionStore';
+import { Input } from '@/components/ui/input';
+import { formatDateTime, formatDuration } from '@/lib/formatters';
 import { getDailyStats } from '@/lib/statistics';
-import { formatDuration, formatDateTime } from '@/lib/formatters';
+import { useSessionStore } from '@/stores/sessionStore';
 import type { Session } from '@/types';
+import { ArrowLeft } from 'lucide-react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export function HistoryPage() {
   const navigate = useNavigate();
@@ -83,7 +83,7 @@ export function HistoryPage() {
 
         {sessions.length > 0 && (
           <div className="mt-6 pt-4 border-t space-y-1 text-sm text-muted-foreground">
-            <p>Median duration (today): {formatDuration(stats.medianDuration)}</p>
+            <p>Average duration (today): {formatDuration(stats.averageDuration)}</p>
             <p>Sessions today: {stats.sessionCount}</p>
           </div>
         )}

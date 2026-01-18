@@ -1,10 +1,10 @@
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { useSessionStore } from '@/stores/sessionStore';
-import { getDailyStats } from '@/lib/statistics';
-import { formatDuration } from '@/lib/formatters';
 import { InstallPrompt } from '@/components/InstallPrompt';
+import { Button } from '@/components/ui/button';
+import { formatDuration } from '@/lib/formatters';
+import { getDailyStats } from '@/lib/statistics';
+import { useSessionStore } from '@/stores/sessionStore';
+import { useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface LocationState {
   sessionId: string;
@@ -39,13 +39,16 @@ export function RecordedPage() {
       <main className="flex-1 flex flex-col items-center justify-center text-center">
         <h2 className="text-2xl font-semibold mb-4">Session recorded</h2>
 
+        <p className="text-muted-foreground mb-2">
+          Duration: {formatDuration(sessionDuration)}
+        </p>
         <p className="text-muted-foreground mb-8">
-          Duration: {formatDuration(sessionDuration)} &nbsp;&nbsp; Tag: {sessionTag}
+          Tag: {sessionTag}
         </p>
 
         <div className="space-y-2 text-sm mb-8">
           <p>Sessions today: {stats.sessionCount}</p>
-          <p>Median duration (today): {formatDuration(stats.medianDuration)}</p>
+          <p>Average duration (today): {formatDuration(stats.averageDuration)}</p>
           {stats.bestSession && (
             <p>Best session (today): {formatDuration(stats.bestSession.durationMs)}</p>
           )}

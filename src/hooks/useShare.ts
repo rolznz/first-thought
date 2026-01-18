@@ -19,7 +19,7 @@ export function useShare() {
     };
 
     try {
-      if (navigator.share && navigator.canShare?.(shareData)) {
+      if (navigator.share) {
         await navigator.share(shareData);
         return { success: true, method: 'native' };
       }
