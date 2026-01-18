@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useTimer } from '@/hooks/useTimer';
@@ -23,10 +23,11 @@ export function CapturePage() {
 
   const [tag, setTag] = useState('');
   const [isFocused, setIsFocused] = useState(false);
+  const isSaving = useRef(false);
 
-  // Redirect if no completed session
+  // Redirect if no completed session (but not if we're in the process of saving)
   useEffect(() => {
-    if (status !== 'completed' || !startedAt) {
+    if (!isSaving.current && (status !== 'completed' || !startedAt)) {
       navigate('/');
     }
   }, [status, startedAt, navigate]);
@@ -56,6 +57,8 @@ export function CapturePage() {
 
   const handleSave = () => {
     if (!tag || !startedAt) return;
+
+    isSaving.current = true;
 
     const session = addSession({
       startedAt,
