@@ -89,7 +89,7 @@ export function HistoryPage() {
         )}
       </main>
 
-      <footer className="p-4 border-t flex gap-2">
+      <footer className="p-4 border-t flex gap-2 pb-6">
         <Button
           variant="outline"
           className="flex-1"
