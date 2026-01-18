@@ -72,10 +72,6 @@ export function RecordPage() {
           {formatDuration(sessionDuration)}
         </p>
 
-        <p className="text-sm text-muted-foreground mb-8">
-          Tag: {sessionTag}
-        </p>
-
         <div className="flex gap-2">
           <Button variant="outline" onClick={handleShare}>
             {copied ? 'Copied!' : 'Share'}
