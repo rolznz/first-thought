@@ -1,6 +1,7 @@
 import type { Achievement, AchievementPeriod, Session } from '@/types';
 
 export const MILESTONES: Achievement[] = [
+  { id: '1m', label: '1 minute', thresholdMs: 1 * 60 * 1000 },
   { id: '5m', label: '5 minutes', thresholdMs: 5 * 60 * 1000 },
   { id: '15m', label: '15 minutes', thresholdMs: 15 * 60 * 1000 },
   { id: '30m', label: '30 minutes', thresholdMs: 30 * 60 * 1000 },
