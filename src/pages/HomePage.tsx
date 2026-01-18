@@ -35,7 +35,7 @@ export function HomePage() {
 
       <main className="flex-1 flex flex-col items-center justify-center p-4">
         <p className="text-muted-foreground text-center mb-8">
-          Clear your mind. Track first thoughts.
+          Clear your mind
         </p>
         <Button size="lg" className="text-lg px-8 py-6" onClick={handleStart}>
           START

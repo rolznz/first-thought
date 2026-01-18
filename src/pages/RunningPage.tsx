@@ -52,7 +52,7 @@ export function RunningPage() {
       <main className="flex-1 flex flex-col items-center justify-center p-4">
         <p className="text-6xl font-mono mb-8">{formatDuration(elapsedMs)}</p>
         <p className="text-muted-foreground text-center text-sm">
-          Lock phone / turn off screen to begin
+          Lock phone / turn off screen
         </p>
       </main>
     </div>
