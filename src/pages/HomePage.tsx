@@ -1,23 +1,11 @@
-import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { History } from 'lucide-react';
 import { useTimer } from '@/hooks/useTimer';
+import { History } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export function HomePage() {
   const navigate = useNavigate();
-  const { status, start, reset } = useTimer();
-
-  useEffect(() => {
-    // If timer is already running, redirect to running page
-    if (status === 'running') {
-      navigate('/running');
-    }
-    // Reset timer when returning to home
-    if (status === 'completed') {
-      reset();
-    }
-  }, [status, navigate, reset]);
+  const { start } = useTimer();
 
   const handleStart = () => {
     start();
