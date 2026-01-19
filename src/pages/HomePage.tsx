@@ -34,27 +34,29 @@ export function HomePage() {
       </div>
       {loaded && (
         <header className="flex justify-between items-center p-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() =>
-              alert(`First Thought is a simple "choiceless awareness" meditation app.
+          <h1 className="text-xl font-semibold">First Thought</h1>
+          <div className="flex items-center justify-center gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() =>
+                alert(`First Thought is a simple "choiceless awareness" meditation app.
 
 Clear your mind and return once a thought appears.
 
 Write your thoughts down to track over time.`)
-            }
-          >
-            <Lightbulb className="h-5 w-5" />
-          </Button>
-          <h1 className="text-xl font-semibold">First Thought</h1>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => navigate("/history")}
-          >
-            <History className="h-5 w-5" />
-          </Button>
+              }
+            >
+              <Lightbulb className="h-5 w-5" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => navigate("/history")}
+            >
+              <History className="h-5 w-5" />
+            </Button>
+          </div>
         </header>
       )}
 
