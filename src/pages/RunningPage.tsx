@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const instructions = [
+  "Clear your mind",
   "Lock phone / turn off screen",
   "Return once you have a compelling thought",
   "Touch grass",
