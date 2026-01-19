@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -6,21 +6,22 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { formatDateTime, formatDuration } from '@/lib/formatters';
-import { getDailyStats } from '@/lib/statistics';
-import { useSessionStore } from '@/stores/sessionStore';
-import type { Session } from '@/types';
-import { ArrowLeft } from 'lucide-react';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { formatDateTime, formatDuration } from "@/lib/formatters";
+import { getDailyStats } from "@/lib/statistics";
+import { useSessionStore } from "@/stores/sessionStore";
+import type { Session } from "@/types";
+import { ArrowLeft } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function HistoryPage() {
   const navigate = useNavigate();
-  const { sessions, updateSession, deleteSession, clearAllSessions } = useSessionStore();
+  const { sessions, updateSession, deleteSession, clearAllSessions } =
+    useSessionStore();
   const [editingSession, setEditingSession] = useState<Session | null>(null);
-  const [editTag, setEditTag] = useState('');
+  const [editTag, setEditTag] = useState("");
   const [showClearDialog, setShowClearDialog] = useState(false);
 
   const stats = getDailyStats(sessions);
@@ -32,7 +33,9 @@ export function HistoryPage() {
 
   const handleSaveEdit = () => {
     if (editingSession && editTag.trim()) {
-      updateSession(editingSession.id, { tag: editTag.trim().toLowerCase() });
+      updateSession(editingSession.id, {
+        tag: editTag.trim().toLowerCase().trim().replace(/\s+/g, ""),
+      });
       setEditingSession(null);
     }
   };
@@ -52,7 +55,7 @@ export function HistoryPage() {
   return (
     <div className="min-h-svh flex flex-col">
       <header className="flex items-center gap-2 p-4 border-b">
-        <Button variant="ghost" size="icon" onClick={() => navigate('/')}>
+        <Button variant="ghost" size="icon" onClick={() => navigate("/")}>
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <h1 className="text-xl font-semibold">History</h1>
@@ -60,7 +63,9 @@ export function HistoryPage() {
 
       <main className="flex-1 overflow-auto p-4">
         {sessions.length === 0 ? (
-          <p className="text-muted-foreground text-center py-8">No sessions yet.</p>
+          <p className="text-muted-foreground text-center py-8">
+            No sessions yet.
+          </p>
         ) : (
           <div className="space-y-2">
             {sessions.map((session) => (
@@ -73,7 +78,9 @@ export function HistoryPage() {
                   <span className="text-sm text-muted-foreground">
                     {formatDateTime(session.createdAt)}
                   </span>
-                  <span className="font-mono">{formatDuration(session.durationMs)}</span>
+                  <span className="font-mono">
+                    {formatDuration(session.durationMs)}
+                  </span>
                 </div>
                 <p className="font-medium mt-1">{session.tag}</p>
               </button>
@@ -83,7 +90,9 @@ export function HistoryPage() {
 
         {sessions.length > 0 && (
           <div className="mt-6 pt-4 border-t space-y-1 text-sm text-muted-foreground">
-            <p>Average duration (today): {formatDuration(stats.averageDuration)}</p>
+            <p>
+              Average duration (today): {formatDuration(stats.averageDuration)}
+            </p>
             <p>Sessions today: {stats.sessionCount}</p>
           </div>
         )}
@@ -98,20 +107,28 @@ export function HistoryPage() {
         >
           Clear all
         </Button>
-        <Button variant="ghost" className="flex-1" onClick={() => navigate('/')}>
+        <Button
+          variant="ghost"
+          className="flex-1"
+          onClick={() => navigate("/")}
+        >
           Back
         </Button>
       </footer>
 
       {/* Edit Session Dialog */}
-      <Dialog open={!!editingSession} onOpenChange={() => setEditingSession(null)}>
+      <Dialog
+        open={!!editingSession}
+        onOpenChange={() => setEditingSession(null)}
+      >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Edit Session</DialogTitle>
             <DialogDescription>
               {editingSession && (
                 <>
-                  {formatDateTime(editingSession.createdAt)} · {formatDuration(editingSession.durationMs)}
+                  {formatDateTime(editingSession.createdAt)} ·{" "}
+                  {formatDuration(editingSession.durationMs)}
                 </>
               )}
             </DialogDescription>
@@ -121,7 +138,7 @@ export function HistoryPage() {
             <label className="text-sm font-medium mb-2 block">Tag</label>
             <Input
               value={editTag}
-              onChange={(e) => setEditTag(e.target.value.trim().toLowerCase().replace(/\s+/g, ''))}
+              onChange={(e) => setEditTag(e.target.value)}
               placeholder="Enter tag..."
             />
           </div>
@@ -143,7 +160,8 @@ export function HistoryPage() {
           <DialogHeader>
             <DialogTitle>Clear all sessions?</DialogTitle>
             <DialogDescription>
-              This will permanently delete all {sessions.length} session{sessions.length !== 1 ? 's' : ''}. This action cannot be undone.
+              This will permanently delete all {sessions.length} session
+              {sessions.length !== 1 ? "s" : ""}. This action cannot be undone.
             </DialogDescription>
           </DialogHeader>
 
