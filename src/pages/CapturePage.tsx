@@ -160,7 +160,7 @@ export function CapturePage() {
         <div className="w-full max-w-xs relative">
           <Input
             type="text"
-            placeholder="Enter a word..."
+            placeholder=""
             value={tag}
             onChange={handleTagChange}
             onFocus={() => setIsFocused(true)}
