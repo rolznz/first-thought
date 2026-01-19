@@ -1,48 +1,49 @@
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { useTimer } from '@/hooks/useTimer';
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useTimer } from "@/hooks/useTimer";
 import {
   checkForNewRecord,
   getUnlockedMilestones,
   MILESTONES,
-} from '@/lib/achievements';
-import { formatDuration } from '@/lib/formatters';
-import { useAchievementStore } from '@/stores/achievementStore';
-import { useSessionStore } from '@/stores/sessionStore';
-import type { Achievement, AchievementPeriod } from '@/types';
-import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+} from "@/lib/achievements";
+import { formatDuration } from "@/lib/formatters";
+import { useAchievementStore } from "@/stores/achievementStore";
+import { useSessionStore } from "@/stores/sessionStore";
+import type { Achievement, AchievementPeriod } from "@/types";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const PERIODS: AchievementPeriod[] = ['day', 'week', 'month', 'allTime'];
+const PERIODS: AchievementPeriod[] = ["day", "week", "month", "allTime"];
 
 export function CapturePage() {
   const navigate = useNavigate();
   const { status, durationMs, startedAt, reset } = useTimer();
   const { sessions, addSession, getTagSuggestions } = useSessionStore();
-  const { isMilestoneUnlocked, unlockMilestone, setPersonalRecord } = useAchievementStore();
+  const { isMilestoneUnlocked, unlockMilestone, setPersonalRecord } =
+    useAchievementStore();
 
-  const [tag, setTag] = useState('');
+  const [tag, setTag] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const isSaving = useRef(false);
 
   // Redirect if no completed session (but not if we're in the process of saving)
   useEffect(() => {
-    if (!isSaving.current && (status !== 'completed' || !startedAt)) {
-      navigate('/');
+    if (!isSaving.current && (status !== "completed" || !startedAt)) {
+      navigate("/");
     }
   }, [status, startedAt, navigate]);
 
   const suggestions = tag.length >= 1 ? getTagSuggestions(tag) : [];
-  const showSuggestions = isFocused && tag.length >= 1 && suggestions.length > 0;
+  const showSuggestions =
+    isFocused && tag.length >= 1 && suggestions.length > 0;
   const showSave = tag.length >= 1;
 
   const validateTag = (input: string): string => {
-    return input.trim().toLowerCase().replace(/\s+/g, '');
+    return input.trim().toLowerCase().replace(/\s+/g, "");
   };
 
   const handleTagChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const validated = validateTag(e.target.value);
-    setTag(validated);
+    setTag(e.target.value);
   };
 
   const handleSelectSuggestion = (suggestion: string) => {
@@ -52,7 +53,7 @@ export function CapturePage() {
 
   const handleCancel = () => {
     reset();
-    navigate('/');
+    navigate("/");
   };
 
   const handleSave = () => {
@@ -60,21 +61,29 @@ export function CapturePage() {
 
     isSaving.current = true;
 
+    const validatedTag = validateTag(tag);
+    if (!validatedTag) {
+      return;
+    }
+
     const session = addSession({
       startedAt,
       endedAt: startedAt + durationMs,
       durationMs,
-      tag,
+      tag: validatedTag,
     });
 
     // Check for new achievements across all periods
-    const newAchievements: { milestone: Achievement; period: AchievementPeriod }[] = [];
+    const newAchievements: {
+      milestone: Achievement;
+      period: AchievementPeriod;
+    }[] = [];
 
     for (const period of PERIODS) {
       const unlockedInPeriod = getUnlockedMilestones(
         [...sessions, session],
         period,
-        isMilestoneUnlocked
+        isMilestoneUnlocked,
       );
       for (const milestone of unlockedInPeriod) {
         unlockMilestone(milestone.id, period);
@@ -97,36 +106,40 @@ export function CapturePage() {
     if (newAchievements.length > 0) {
       // Get the highest milestone
       const highestMilestone = newAchievements.reduce((highest, current) => {
-        const currentIdx = MILESTONES.findIndex((m) => m.id === current.milestone.id);
-        const highestIdx = MILESTONES.findIndex((m) => m.id === highest.milestone.id);
+        const currentIdx = MILESTONES.findIndex(
+          (m) => m.id === current.milestone.id,
+        );
+        const highestIdx = MILESTONES.findIndex(
+          (m) => m.id === highest.milestone.id,
+        );
         return currentIdx > highestIdx ? current : highest;
       });
 
-      navigate('/achievement', {
+      navigate("/achievement", {
         state: {
           milestone: highestMilestone.milestone,
           period: highestMilestone.period,
           newRecords,
           sessionId: session.id,
           sessionDuration: durationMs,
-          sessionTag: tag,
+          sessionTag: validatedTag,
         },
       });
     } else if (newRecords.length > 0) {
-      navigate('/record', {
+      navigate("/record", {
         state: {
           period: newRecords[0],
           sessionId: session.id,
           sessionDuration: durationMs,
-          sessionTag: tag,
+          sessionTag: validatedTag,
         },
       });
     } else {
-      navigate('/recorded', {
+      navigate("/recorded", {
         state: {
           sessionId: session.id,
           sessionDuration: durationMs,
-          sessionTag: tag,
+          sessionTag: validatedTag,
         },
       });
     }
@@ -168,7 +181,9 @@ export function CapturePage() {
                   onClick={() => handleSelectSuggestion(s.tag)}
                 >
                   <span>{s.tag}</span>
-                  <span className="text-muted-foreground text-sm">({s.count})</span>
+                  <span className="text-muted-foreground text-sm">
+                    ({s.count})
+                  </span>
                 </button>
               ))}
             </div>
@@ -176,11 +191,7 @@ export function CapturePage() {
         </div>
 
         <div className="flex flex-col gap-2 mt-4">
-          {showSave && (
-            <Button onClick={handleSave}>
-              Save
-            </Button>
-          )}
+          {showSave && <Button onClick={handleSave}>Save</Button>}
           <Button variant="ghost" onClick={handleCancel}>
             Cancel
           </Button>
