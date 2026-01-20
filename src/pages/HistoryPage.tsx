@@ -8,18 +8,27 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { HistoryList } from "@/components/history/HistoryList";
+import { HistoryGraph } from "@/components/history/HistoryGraph";
+import { HistoryWordCloud } from "@/components/history/HistoryWordCloud";
 import { formatDateTime, formatDuration } from "@/lib/formatters";
 import { getDailyStats } from "@/lib/statistics";
 import { useSessionStore } from "@/stores/sessionStore";
 import type { Session } from "@/types";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, BarChart3, Cloud, List } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export function HistoryPage() {
   const navigate = useNavigate();
-  const { sessions, updateSession, deleteSession, clearAllSessions } =
-    useSessionStore();
+  const {
+    sessions,
+    tagFrequencies,
+    updateSession,
+    deleteSession,
+    clearAllSessions,
+  } = useSessionStore();
   const [editingSession, setEditingSession] = useState<Session | null>(null);
   const [editTag, setEditTag] = useState("");
   const [showClearDialog, setShowClearDialog] = useState(false);
@@ -61,41 +70,46 @@ export function HistoryPage() {
         <h1 className="text-xl font-semibold">History</h1>
       </header>
 
-      <main className="flex-1 overflow-auto p-4">
-        {sessions.length === 0 ? (
-          <p className="text-muted-foreground text-center py-8">
-            No sessions yet.
-          </p>
-        ) : (
-          <div className="space-y-2">
-            {sessions.map((session) => (
-              <button
-                key={session.id}
-                onClick={() => handleEditSession(session)}
-                className="w-full text-left p-3 rounded-lg border hover:bg-accent transition-colors"
-              >
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">
-                    {formatDateTime(session.createdAt)}
-                  </span>
-                  <span className="font-mono">
-                    {formatDuration(session.durationMs)}
-                  </span>
-                </div>
-                <p className="font-medium mt-1">{session.tag}</p>
-              </button>
-            ))}
+      <main className="flex-1 overflow-auto flex flex-col">
+        <Tabs defaultValue="list" className="flex-1 flex flex-col">
+          <div className="px-4 pt-4">
+            <TabsList className="w-full">
+              <TabsTrigger value="list" className="flex-1 gap-1.5">
+                <List className="h-4 w-4" />
+                <span className="hidden sm:inline">List</span>
+              </TabsTrigger>
+              <TabsTrigger value="graph" className="flex-1 gap-1.5">
+                <BarChart3 className="h-4 w-4" />
+                <span className="hidden sm:inline">Graph</span>
+              </TabsTrigger>
+              <TabsTrigger value="cloud" className="flex-1 gap-1.5">
+                <Cloud className="h-4 w-4" />
+                <span className="hidden sm:inline">Cloud</span>
+              </TabsTrigger>
+            </TabsList>
           </div>
-        )}
 
-        {sessions.length > 0 && (
-          <div className="mt-6 pt-4 border-t space-y-1 text-sm text-muted-foreground">
-            <p>
-              Average duration (today): {formatDuration(stats.averageDuration)}
-            </p>
-            <p>Sessions today: {stats.sessionCount}</p>
-          </div>
-        )}
+          <TabsContent value="list" className="flex-1 overflow-auto p-4">
+            <HistoryList sessions={sessions} onEditSession={handleEditSession} />
+
+            {sessions.length > 0 && (
+              <div className="mt-6 pt-4 border-t space-y-1 text-sm text-muted-foreground">
+                <p>
+                  Average duration (today): {formatDuration(stats.averageDuration)}
+                </p>
+                <p>Sessions today: {stats.sessionCount}</p>
+              </div>
+            )}
+          </TabsContent>
+
+          <TabsContent value="graph" className="flex-1 overflow-auto p-4">
+            <HistoryGraph sessions={sessions} />
+          </TabsContent>
+
+          <TabsContent value="cloud" className="flex-1 overflow-auto p-4">
+            <HistoryWordCloud tagFrequencies={tagFrequencies} />
+          </TabsContent>
+        </Tabs>
       </main>
 
       <footer className="p-4 border-t flex gap-2 pb-6">
