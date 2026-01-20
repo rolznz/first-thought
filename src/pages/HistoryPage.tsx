@@ -16,7 +16,7 @@ import { formatDateTime, formatDuration } from "@/lib/formatters";
 import { getDailyStats } from "@/lib/statistics";
 import { useSessionStore } from "@/stores/sessionStore";
 import type { Session } from "@/types";
-import { ArrowLeft, BarChart3, Cloud, List } from "lucide-react";
+import { ArrowLeft, BarChart3, Cloud, List, History } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -25,9 +25,11 @@ export function HistoryPage() {
   const {
     sessions,
     tagFrequencies,
+    isExampleData,
     updateSession,
     deleteSession,
     clearAllSessions,
+    loadExampleData,
   } = useSessionStore();
   const [editingSession, setEditingSession] = useState<Session | null>(null);
   const [editTag, setEditTag] = useState("");
@@ -71,7 +73,30 @@ export function HistoryPage() {
       </header>
 
       <main className="flex-1 overflow-auto flex flex-col">
+        {sessions.length === 0 ? (
+          <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
+            <History className="h-16 w-16 text-muted-foreground/50 mb-4" />
+            <h2 className="text-xl font-medium mb-2">No history yet</h2>
+            <p className="text-muted-foreground mb-6 max-w-xs">
+              Complete your first session to start tracking your progress.
+            </p>
+            <Button variant="outline" onClick={loadExampleData}>
+              View example data
+            </Button>
+          </div>
+        ) : (
         <Tabs defaultValue="list" className="flex-1 flex flex-col">
+          {isExampleData && (
+            <div className="mx-4 mt-4 p-3 bg-muted rounded-lg text-sm text-muted-foreground text-center">
+              Viewing example data.{" "}
+              <button
+                onClick={clearAllSessions}
+                className="underline hover:text-foreground"
+              >
+                Clear
+              </button>
+            </div>
+          )}
           <div className="px-4 pt-4">
             <TabsList className="w-full">
               <TabsTrigger value="list" className="flex-1 gap-1.5">
@@ -110,6 +135,7 @@ export function HistoryPage() {
             <HistoryWordCloud tagFrequencies={tagFrequencies} />
           </TabsContent>
         </Tabs>
+        )}
       </main>
 
       <footer className="p-4 border-t flex gap-2 pb-6">

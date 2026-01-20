@@ -79,7 +79,7 @@ export function HistoryWordCloud({ tagFrequencies }: HistoryWordCloudProps) {
   }
 
   return (
-    <div className="relative w-full h-[80vh] rounded-lg overflow-hidden bg-neutral-50">
+    <div className="relative w-full h-[65vh] rounded-lg overflow-hidden bg-neutral-50">
       {words.map((word) => (
         <span
           key={word.tag}
