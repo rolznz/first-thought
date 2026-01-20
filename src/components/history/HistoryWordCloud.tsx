@@ -45,16 +45,12 @@ export function HistoryWordCloud({ tagFrequencies }: HistoryWordCloudProps) {
     return shuffled.map((tf, index) => {
       const rand = seededRandom(tf.tag + index);
 
-      // Calculate size based on frequency (1rem to 2.5rem)
+      // Calculate size based on frequency (0.85rem to 2.25rem)
       const normalized = (tf.count - minCount) / range;
-      const fontSize = 1 + normalized * 1.5;
+      const fontSize = 0.85 + normalized * 1.4;
 
-      // Generate random position (with padding from edges)
-      const x = 10 + rand() * 80; // 10% to 90%
-      const y = 10 + rand() * 80; // 10% to 90%
-
-      // Random rotation (-10 to 10 degrees)
-      const rotation = (rand() - 0.5) * 20;
+      // Small random rotation (-8 to 8 degrees) for visual interest
+      const rotation = (rand() - 0.5) * 16;
 
       // Assign color
       const color = COLORS[index % COLORS.length];
@@ -64,10 +60,8 @@ export function HistoryWordCloud({ tagFrequencies }: HistoryWordCloudProps) {
         count: tf.count,
         fontSize,
         color,
-        x,
-        y,
         rotation,
-        opacity: 0.75 + normalized * 0.25,
+        opacity: 0.8 + normalized * 0.2,
       };
     });
   }, [tagFrequencies]);
@@ -79,18 +73,16 @@ export function HistoryWordCloud({ tagFrequencies }: HistoryWordCloudProps) {
   }
 
   return (
-    <div className="relative w-full h-[65vh] rounded-lg overflow-hidden bg-neutral-50">
+    <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 w-full min-h-[40vh] p-6 rounded-lg bg-neutral-50">
       {words.map((word) => (
         <span
           key={word.tag}
-          className="absolute px-2 py-1 rounded-md transition-transform hover:scale-125 cursor-default whitespace-nowrap"
+          className="px-2 py-1 rounded-md transition-transform hover:scale-110 cursor-default whitespace-nowrap"
           style={{
             fontSize: `${word.fontSize}rem`,
             color: word.color,
             opacity: word.opacity,
-            left: `${word.x}%`,
-            top: `${word.y}%`,
-            transform: `translate(-50%, -50%) rotate(${word.rotation}deg)`,
+            transform: `rotate(${word.rotation}deg)`,
           }}
           title={`${word.tag}: ${word.count} session${word.count !== 1 ? "s" : ""}`}
         >
