@@ -39,13 +39,7 @@ export function HomePage() {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() =>
-                alert(`First Thought is a simple "choiceless awareness" meditation app.
-
-Clear your mind and return once a thought appears.
-
-Write your thoughts down to track over time.`)
-              }
+              onClick={() => navigate("/about")}
             >
               <Lightbulb className="h-5 w-5" />
             </Button>

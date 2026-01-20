@@ -10,6 +10,7 @@ import { formatDuration } from "@/lib/formatters";
 import { useAchievementStore } from "@/stores/achievementStore";
 import { useSessionStore } from "@/stores/sessionStore";
 import type { Achievement, AchievementPeriod } from "@/types";
+import { LockIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -156,6 +157,13 @@ export function CapturePage() {
         <p className="text-center mb-4 max-w-xs text-sm">
           Describe the first thought that entered your mind
         </p>
+
+        <div className="flex items-center justify-center gap-1 mb-4 text-muted-foreground">
+          <LockIcon className="size-3" />
+          <p className="text-center max-w-xs text-xs">
+            Data is only saved on your device.
+          </p>
+        </div>
 
         <div className="w-full max-w-xs relative">
           <Input

@@ -9,6 +9,7 @@ const instructions = [
   "Lock phone / turn off screen",
   "Return once you have a compelling thought",
   "Touch grass",
+  "Compact your context window",
 ];
 
 export function RunningPage() {
