@@ -1,6 +1,7 @@
 import natureLoader from "@/assets/animations/nature_loader.lottie.txt";
 import { Button } from "@/components/ui/button";
 import { useTimer } from "@/hooks/useTimer";
+import { useSessionStore } from "@/stores/sessionStore";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { History, Lightbulb } from "lucide-react";
 import { useState } from "react";
@@ -12,6 +13,9 @@ export function HomePage() {
   const [loaded, setLoaded] = useState(false);
 
   const handleStart = () => {
+    if (useSessionStore.getState().isExampleData) {
+      useSessionStore.getState().clearAllSessions();
+    }
     start();
     navigate("/running");
   };
