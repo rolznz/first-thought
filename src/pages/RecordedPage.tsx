@@ -1,10 +1,10 @@
-import { InstallPrompt } from '@/components/InstallPrompt';
-import { Button } from '@/components/ui/button';
-import { formatDuration } from '@/lib/formatters';
-import { getDailyStats } from '@/lib/statistics';
-import { useSessionStore } from '@/stores/sessionStore';
-import { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { InstallPrompt } from "@/components/InstallPrompt";
+import { Button } from "@/components/ui/button";
+import { formatDuration } from "@/lib/formatters";
+import { getDailyStats } from "@/lib/statistics";
+import { useSessionStore } from "@/stores/sessionStore";
+import { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface LocationState {
   sessionId: string;
@@ -21,7 +21,7 @@ export function RecordedPage() {
 
   useEffect(() => {
     if (!state) {
-      navigate('/');
+      navigate("/");
     }
   }, [state, navigate]);
 
@@ -31,7 +31,7 @@ export function RecordedPage() {
   const stats = getDailyStats(sessions);
 
   const handleDone = () => {
-    navigate('/');
+    navigate("/");
   };
 
   return (
@@ -42,21 +42,28 @@ export function RecordedPage() {
         <p className="text-muted-foreground mb-2">
           Duration: {formatDuration(sessionDuration)}
         </p>
-        <p className="text-muted-foreground mb-8">
-          Tag: {sessionTag}
+        <p className="text-muted-foreground mb-8">Tag: {sessionTag}</p>
+
+        <p className="mb-4">💭 Take a minute to reflect on your thought.</p>
+        <p className="mb-4 text-sm">
+          📒 Consider writing a small private note in your favorite notetaking
+          app to help you resolve and free up some space in your mind.
         </p>
 
-        <div className="space-y-2 text-sm mb-8">
+        <div className="space-y-2 text-sm mb-8 text-muted-foreground">
           <p>Sessions today: {stats.sessionCount}</p>
-          <p>Average duration (today): {formatDuration(stats.averageDuration)}</p>
+          <p>
+            Average duration (today): {formatDuration(stats.averageDuration)}
+          </p>
           {stats.bestSession && (
-            <p>Best session (today): {formatDuration(stats.bestSession.durationMs)}</p>
+            <p>
+              Best session (today):{" "}
+              {formatDuration(stats.bestSession.durationMs)}
+            </p>
           )}
         </div>
 
-        <Button onClick={handleDone}>
-          Done
-        </Button>
+        <Button onClick={handleDone}>Done</Button>
 
         <InstallPrompt />
       </main>
