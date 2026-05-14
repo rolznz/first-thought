@@ -11,7 +11,8 @@ export default defineConfig({
     react(),
     tailwindcss(),
     VitePWA({
-      registerType: 'autoUpdate',
+      registerType: 'prompt',
+      injectRegister: false,
       manifest: {
         name: 'First Thought',
         short_name: 'First Thought',
@@ -43,7 +44,14 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
-        navigateFallback: 'index.html',
+        navigateFallback: '/first-thought/index.html',
+        runtimeCaching: [
+          {
+            urlPattern: ({ request }) => request.mode === 'navigate',
+            handler: 'CacheFirst',
+            options: { cacheName: 'pages' }
+          }
+        ],
         cleanupOutdatedCaches: true,
         clientsClaim: true,
         skipWaiting: true
